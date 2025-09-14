@@ -10,16 +10,17 @@ return {
     'MunifTanjim/nui.nvim',
   },
   lazy = false,
-  keys = {
-    { '\\', ':Neotree reveal<CR>', desc = 'NeoTree reveal', silent = true },
-  },
   opts = {
     filesystem = {
       window = {
         mappings = {
           ['\\'] = 'close_window',
         },
+        width = 30,
       },
     },
   },
+  config = function()
+    vim.keymap.set({ 'v', 'n' }, '<leader>e', ':Neotree toggle<CR>', { desc = 'NeoTree toggle', silent = true })
+  end,
 }
