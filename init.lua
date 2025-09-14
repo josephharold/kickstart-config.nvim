@@ -1,5 +1,4 @@
 --[[
-
 =====================================================================
 ==================== READ THIS BEFORE CONTINUING ====================
 =====================================================================
@@ -91,7 +90,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
@@ -102,7 +101,7 @@ vim.g.have_nerd_font = false
 vim.o.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
--- vim.o.relativenumber = true
+vim.o.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.o.mouse = 'a'
@@ -183,6 +182,8 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
 -- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+
+vim.keymap.set({ 'v', 'i' }, 'kj', '<Esc>', { noremap = true })
 
 -- TIP: Disable arrow keys in normal mode
 -- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
@@ -435,7 +436,9 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
-      vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+      vim.keymap.set('n', '<leader>bf', builtin.buffers, { desc = '[buffer] Find existing buffers' })
+      vim.keymap.set('n', '<leader>gs', builtin.git_status, { desc = '[git] status' })
+      vim.keymap.set('n', '<leader>gc', builtin.git_commits, { desc = '[git] commits' })
 
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set('n', '<leader>/', function()
@@ -875,29 +878,6 @@ require('lazy').setup({
       signature = { enabled = true },
     },
   },
-
-  { -- You can easily change to a different colorscheme.
-    -- Change the name of the colorscheme plugin below, and then
-    -- change the command in the config to whatever the name of that colorscheme is.
-    --
-    -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-    'folke/tokyonight.nvim',
-    priority = 1000, -- Make sure to load this before all the other start plugins.
-    config = function()
-      ---@diagnostic disable-next-line: missing-fields
-      require('tokyonight').setup {
-        styles = {
-          comments = { italic = false }, -- Disable italics in comments
-        },
-      }
-
-      -- Load the colorscheme here.
-      -- Like many other themes, this one has different styles, and you could load
-      -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'tokyonight-night'
-    end,
-  },
-
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 
@@ -977,7 +957,7 @@ require('lazy').setup({
   -- require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
   -- require 'kickstart.plugins.autopairs',
-  -- require 'kickstart.plugins.neo-tree',
+  require 'kickstart.plugins.neo-tree',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
@@ -990,6 +970,9 @@ require('lazy').setup({
   -- Or use telescope!
   -- In normal mode type `<space>sh` then write `lazy.nvim-plugin`
   -- you can continue same window with `<space>sr` which resumes last telescope search
+
+  require 'custom.plugins',
+  require 'custom.colorscheme',
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
@@ -1012,5 +995,6 @@ require('lazy').setup({
   },
 })
 
+require 'custom.keymaps'
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
