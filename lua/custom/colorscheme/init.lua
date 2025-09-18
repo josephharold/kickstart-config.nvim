@@ -1,12 +1,18 @@
 return {
+  -- {
+  --   'catppuccin/nvim',
+  --   name = 'catppuccin',
+  --   priority = 1000,
+  --   lazy = false,
+  -- },
+
+  -- Lazy
   {
-    'catppuccin/nvim',
-    name = 'catppuccin',
-    priority = 1000,
-    lazy = false,
+    'olimorris/onedarkpro.nvim',
+    priority = 1000, -- Ensure it loads first
     config = function()
-      require 'catppuccin'
-      vim.cmd.colorscheme 'catppuccin'
+      require 'onedarkpro'
+      vim.cmd.colorscheme 'onedark'
     end,
   },
 }
