@@ -321,5 +321,12 @@ require('lazy').setup({
     },
   },
 })
+vim.opt.autoread = true
+vim.api.nvim_create_autocmd("CursorHold", {
+  callback = function()
+    vim.cmd("checktime")
+  end,
+})
 
+-- something
 require 'custom.keymaps'
